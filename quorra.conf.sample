@@ -1,0 +1,52 @@
+# This is a sample configuration file showing all possible configuration
+# variables
+
+# Every command that connects to vSphere needs these three pieces of
+# information:
+api_url = "my-vcenter-server" # hostname/ip, and port; or full URL
+username = "domain\\admin" # or just "username" if not using a domain
+password = "secret"
+
+# ... and nothing can really be achieved without the vSphere datacenter
+# under which the datastores, hosts, and VMs reside
+datacenter = "Datacenter"
+
+# Defaults that can either be overridden in other sections or on the
+# command line
+[Default]
+# where to store newly created items by default
+datastore = "Default Datastore"
+folder = "CoreOS"
+# the default vSphere host on which new VMs will be created
+host = "host1.example.com"
+# the path to the OVA to use when creating VMs, can be local or remote
+ova = "http://alpha.release.core-os.net/amd64-usr/current/coreos_production_vmware_ova.ova"
+
+# Settings specific to interactions with VMs
+# Settings of the same name override the defaults (or use the default
+# if not specified)
+[VM]
+datastore = "VM Datastore"
+folder = "CoreOS/VMs" # folder paths are equally valid
+
+# Settings specific to managing data volumes
+# Settings of the same name override the defaults (or use the default
+# if not specified)
+[DataVolume]
+datastore = "App Data"
+folder = "CoreOS"
+
+# The VMs will be created with a "private" network that facilitates
+# communication between them, the network corresponds to a vSphere port
+# group
+[Network.Private]
+name = "CoreOS Network"
+vlan = 230
+allocation = "pool"
+# settings for the IP address pool
+ip_range = "192.168.1.10 # 50" # specified as: <start addr> # <range size>
+
+[Network.Public]
+name = "Internal LAN"
+vlan = 0 # setting VLAN to 0 is equivalent to it being unassigned
+allocation = "dhcp"
