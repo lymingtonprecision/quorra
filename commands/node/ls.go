@@ -20,7 +20,7 @@ func (cmd *ls) Description() string {
 	return cmd.Summary()
 }
 
-func (cmd *ls) Run(cl *govmomi.Client, c *config.Config) error {
+func (cmd *ls) Run(cl *govmomi.Client, c *config.Config, args []string) error {
 	vms, err := vm.FindAll(cl, c)
 	if err != nil {
 		return err
@@ -38,5 +38,5 @@ func (cmd *ls) Run(cl *govmomi.Client, c *config.Config) error {
 }
 
 func init() {
-	cli.Register("ls", &ls{})
+	cli.RegisterCommand([]string{"node", "ls"}, &ls{})
 }

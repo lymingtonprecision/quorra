@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/lymingtonprecision/quorra/cli"
-	_ "github.com/lymingtonprecision/quorra/commands"
+	_ "github.com/lymingtonprecision/quorra/commands/node"
 )
 
 func main() {

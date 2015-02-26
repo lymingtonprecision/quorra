@@ -16,10 +16,10 @@ func Run(args []string) int {
 		return 1
 	}
 
-	name, ok := RealCommandName(args[0])
+	command, ok := FindCommand(args)
 
 	if !ok {
-		PrintInvalidCommand(args[0])
+		PrintInvalidCommand(args)
 		return 1
 	}
 
@@ -33,7 +33,7 @@ func Run(args []string) int {
 		panic(err)
 	}
 
-	if err := commands[name].Run(cl, c); err != nil {
+	if err := command.Run(cl, c); err != nil {
 		panic(err)
 	}
 
