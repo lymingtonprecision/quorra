@@ -8,9 +8,13 @@ type NetworkConfig struct {
 }
 
 type Config struct {
-	ApiUrl     string
-	Username   string
-	Password   string
+	ApiUrl   string
+	Username string
+	Password string
+
+	ExtCert string
+	ExtKey  string
+
 	Datacenter string
 
 	Default struct {

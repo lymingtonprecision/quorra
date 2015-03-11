@@ -6,7 +6,12 @@ cluster standardized and simple.
 
 ## Overview
 
-`quorra` is reliant on **two** configuration files:
+`quorra` uses the vSphere API version 5.0 (and may work with later
+versions) and registers itself as a vCenter extension. It requires
+a broad swath of permissions and is best used by vSphere administrators
+only.
+
+Configuration is stored in **two** files:
 
 * `quorra.conf` the configuration of `quorra` itself
 * `cloud-config.tmpl` the template to use for CoreOS `cloud-config` files
@@ -71,6 +76,8 @@ parameter of the same name in the configuration file:
 
 * `QUORRA_USERNAME`
 * `QUORRA_PASSWORD`
+* `QUORRA_EXT_CERT`
+* `QUORRA_EXT_KEY`
 * `QUORRA_API_URL`
 * `QUORRA_DATACENTER`
 * `QUORRA_DATASTORE` (overrides the default datastore only)

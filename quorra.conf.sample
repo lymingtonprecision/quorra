@@ -7,12 +7,22 @@ api_url = "my-vcenter-server" # hostname/ip, and port; or full URL
 username = "domain\\admin" # or just "username" if not using a domain
 password = "secret"
 
+# Various commands require use of the registered vCenter extension
+# which in turn requires TLS authentication using a certificate.
+#
+# Commands are provided to generate and set the client certificate.
+#
+# This variable should be the path to the public vCenter extension
+# certificate or the PEM encoded certificate itself.
+ext_cert = "./cert.pem"
+# The path to the private key file or the PEM encoded key itself.
+ext_key = "./cert.key"
+
 # ... and nothing can really be achieved without the vSphere datacenter
 # under which the datastores, hosts, and VMs reside
 datacenter = "Datacenter"
 
-# Defaults that can either be overridden in other sections or on the
-# command line
+# Defaults that can be overridden in other sections
 [Default]
 # where to store newly created items by default
 datastore = "Default Datastore"

@@ -4,7 +4,10 @@ import (
 	"os"
 
 	"github.com/lymingtonprecision/quorra/cli"
+	_ "github.com/lymingtonprecision/quorra/commands/cert"
+	_ "github.com/lymingtonprecision/quorra/commands/ext"
 	_ "github.com/lymingtonprecision/quorra/commands/node"
+	_ "github.com/lymingtonprecision/quorra/version"
 )
 
 func main() {

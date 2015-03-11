@@ -51,7 +51,7 @@ func printCommands(cm map[string]CommandMap, path []string) {
 			if s, ok := c.This.(HasSummary); ok {
 				fmt.Fprintf(os.Stderr, "%-25s %s\n", cp, s.Summary())
 			} else {
-				fmt.Fprintf(os.Stderr, "%*s\n", cp)
+				fmt.Fprintf(os.Stderr, "%s\n", cp)
 			}
 		} else if len(c.Commands) > 0 {
 			printCommands(c.Commands, append(path, k))

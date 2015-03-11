@@ -14,6 +14,9 @@ var ValidVars VarSetters = VarSetters{
 	"USERNAME": func(c *Config, v string) { c.Username = v },
 	"PASSWORD": func(c *Config, v string) { c.Password = v },
 
+	"EXT_CERT": func(c *Config, v string) { c.ExtCert = v },
+	"EXT_KEY":  func(c *Config, v string) { c.ExtKey = v },
+
 	"API_URL":    func(c *Config, v string) { c.ApiUrl = v },
 	"DATACENTER": func(c *Config, v string) { c.Datacenter = v },
 	"DATASTORE":  func(c *Config, v string) { c.Default.Datastore = v },
