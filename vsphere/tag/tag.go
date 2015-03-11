@@ -5,6 +5,8 @@ import (
 	"github.com/vmware/govmomi/vim25/methods"
 	"github.com/vmware/govmomi/vim25/mo"
 	"github.com/vmware/govmomi/vim25/types"
+
+	"golang.org/x/net/context"
 )
 
 const ManagedTagName string = "quorra.ManagedByQuorra"
@@ -42,6 +44,7 @@ func tagDef(cl *govmomi.Client, tagName string) (*types.CustomFieldDef, error) {
 	}
 
 	r, err := methods.AddCustomFieldDef(
+		context.TODO(),
 		cl,
 		&types.AddCustomFieldDef{This: *cfm, Name: tagName},
 	)

@@ -21,7 +21,7 @@ func NewClient(config *config.Config) (*govmomi.Client, error) {
 	}
 
 	ui := url.UserPassword(config.Username, config.Password)
-	if err := c.Login(*ui); err != nil {
+	if err := c.Session.Login(*ui); err != nil {
 		return nil, err
 	}
 
