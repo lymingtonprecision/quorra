@@ -6,6 +6,7 @@ import (
 	"github.com/lymingtonprecision/quorra/cli"
 	_ "github.com/lymingtonprecision/quorra/commands/cert"
 	_ "github.com/lymingtonprecision/quorra/commands/ext"
+	_ "github.com/lymingtonprecision/quorra/commands/ip/pool"
 	_ "github.com/lymingtonprecision/quorra/commands/node"
 	_ "github.com/lymingtonprecision/quorra/version"
 )
