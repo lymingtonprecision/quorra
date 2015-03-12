@@ -2,6 +2,7 @@ package cert
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	"github.com/vmware/govmomi"
@@ -42,35 +43,46 @@ If no paths are provided both the public and private keys will be printed.
 }
 
 func (cmd *create) Run(cl *govmomi.Client, c *config.Config, args []string) error {
-	var certOut, keyOut = os.Stdout, os.Stdout
-
-	if len(args) >= 1 {
-		certOut, err := os.Create(args[0])
-		if err != nil {
-			return err
-		}
-		defer certOut.Close()
-
-		fmt.Printf("Writing public cert to: %s\n\n", args[0])
-	}
-
-	if len(args) >= 2 {
-		keyOut, err := os.Create(args[1])
-		if err != nil {
-			return err
-		}
-		defer keyOut.Close()
-
-		fmt.Printf("Writing private key to: %s\n\n", args[1])
-	}
-
 	cert, err := cert.Create()
 	if err != nil {
 		return err
 	}
 
-	cert.WritePublicKey(certOut)
-	cert.WritePrivateKey(keyOut)
+	writeCertFiles(cert, args)
+
+	return nil
+}
+
+func writeCertFiles(crt *cert.Certificate, args []string) error {
+	var certOut, keyOut io.Writer
+	var err error
+
+	if len(args) >= 1 {
+		certOut, err = os.Create(args[0])
+		if err != nil {
+			return err
+		}
+		defer certOut.(io.Closer).Close()
+
+		fmt.Printf("Writing public cert to: %s\n\n", args[0])
+	} else {
+		certOut = os.Stdout
+	}
+
+	if len(args) >= 2 {
+		keyOut, err = os.Create(args[1])
+		if err != nil {
+			return err
+		}
+		defer keyOut.(io.Closer).Close()
+
+		fmt.Printf("Writing private key to: %s\n\n", args[1])
+	} else {
+		keyOut = os.Stdout
+	}
+
+	crt.WritePublicKey(certOut)
+	crt.WritePrivateKey(keyOut)
 
 	return nil
 }

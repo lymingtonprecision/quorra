@@ -11,19 +11,14 @@ import (
 	"golang.org/x/net/context"
 )
 
-func (ext *Extension) ReplaceCertificate() (*cert.Certificate, error) {
+func (ext *Extension) UploadCertificate(c *cert.Certificate) error {
 	var b bytes.Buffer
 
-	cert, err := cert.Create()
-	if err != nil {
-		return nil, err
+	if err := c.WritePublicKey(&b); err != nil {
+		return err
 	}
 
-	if err := cert.WritePublicKey(&b); err != nil {
-		return nil, err
-	}
-
-	_, err = methods.SetExtensionCertificate(
+	_, err := methods.SetExtensionCertificate(
 		context.TODO(),
 		ext.Client,
 		&types.SetExtensionCertificate{
@@ -33,8 +28,22 @@ func (ext *Extension) ReplaceCertificate() (*cert.Certificate, error) {
 		},
 	)
 	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (ext *Extension) ReplaceCertificate() (*cert.Certificate, error) {
+	c, err := cert.Create()
+	if err != nil {
 		return nil, err
 	}
 
-	return cert, nil
+	err = ext.UploadCertificate(c)
+	if err != nil {
+		return nil, err
+	}
+
+	return c, nil
 }
