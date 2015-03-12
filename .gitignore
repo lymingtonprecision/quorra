@@ -25,3 +25,5 @@ _testmain.go
 
 # Project specific files
 quorra.conf
+*.pem
+*.key
