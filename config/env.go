@@ -22,6 +22,7 @@ var ValidVars VarSetters = VarSetters{
 	"DATASTORE":  func(c *Config, v string) { c.Default.Datastore = v },
 	"HOST":       func(c *Config, v string) { c.Default.Host = v },
 	"OVA":        func(c *Config, v string) { c.Default.OVA = v },
+	"VM_MEMORY":  func(c *Config, v string) { c.VM.Memory = v },
 }
 
 func ParseEnv() (*Config, error) {

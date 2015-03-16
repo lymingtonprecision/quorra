@@ -27,6 +27,7 @@ type Config struct {
 	VM struct {
 		Datastore string
 		Folder    string
+		Memory    string
 	}
 
 	DataVolume struct {
