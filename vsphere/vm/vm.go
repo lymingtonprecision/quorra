@@ -2,17 +2,21 @@ package vm
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/vmware/govmomi"
 	"github.com/vmware/govmomi/vim25/mo"
+	"github.com/vmware/govmomi/vim25/types"
 
 	"github.com/lymingtonprecision/quorra/config"
-	"github.com/lymingtonprecision/quorra/vsphere/tag"
+	"github.com/lymingtonprecision/quorra/vsphere/ext"
 )
 
 type VirtualMachine struct {
 	Client *govmomi.Client
 	Object *govmomi.VirtualMachine
+
+	mo mo.VirtualMachine
 }
 
 func FromReference(cl *govmomi.Client, ref govmomi.Reference) (*VirtualMachine, bool) {
@@ -58,8 +62,41 @@ func FindAll(cl *govmomi.Client, c *config.Config) ([]VirtualMachine, error) {
 	return vms, nil
 }
 
+func Find(cl *govmomi.Client, c *config.Config, name string) (*VirtualMachine, error) {
+	vms, err := FindAll(cl, c)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, vm := range vms {
+		if strings.EqualFold(vm.Name(), name) {
+			return &vm, nil
+		}
+	}
+
+	return nil, fmt.Errorf("virtual machine '%s' not found", name)
+}
+
+func (vm *VirtualMachine) config() *types.VirtualMachineConfigInfo {
+	if vm.mo.Config != nil {
+		return vm.mo.Config
+	}
+
+	vm.Client.Properties(vm.Object.Reference(), []string{"config"}, &vm.mo)
+
+	return vm.mo.Config
+}
+
+func (vm *VirtualMachine) Name() string {
+	return vm.config().Name
+}
+
 func (vm *VirtualMachine) IsManagedByQuorra() bool {
-	var o mo.VirtualMachine
-	vm.Client.Properties(vm.Object.Reference(), []string{"customValue"}, &o)
-	return tag.IsManagedEntity(vm.Client, o.ManagedEntity)
+	c := vm.config()
+
+	if c.ManagedBy == nil {
+		return false
+	}
+
+	return c.ManagedBy.ExtensionKey == ext.Key
 }
