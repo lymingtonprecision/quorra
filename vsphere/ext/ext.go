@@ -35,6 +35,12 @@ func makeExtension() types.Extension {
 			CompanyUrl: "http://www.lymingtonprecision.co.uk/",
 			ProductUrl: "https://github.com/lymingtonprecision/quorra",
 		},
+		ManagedEntityInfo: []types.ExtManagedEntityInfo{
+			types.ExtManagedEntityInfo{
+				Type:        "VirtualMachine",
+				Description: "Virtual Machine",
+			},
+		},
 	}
 }
 
